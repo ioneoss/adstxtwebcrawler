@@ -1,0 +1,6 @@
+/log
+/.idea
+/target
+ads-webcrawler.iml
+dependency-reduced-pom.xml
+derby.log
