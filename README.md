@@ -63,6 +63,11 @@ datastores.write=file,console
 The app assumes the table that we write to is in the following format: (if you choose any other structure, make changes to the query in config accordingly)
 
 ```sql
+
+CREATE TABLE adstxt_urls (
+url VARCHAR (500);
+);
+
 CREATE TABLE adstxt_results (
 insert_date TIMESTAMP ,
 source_domain VARCHAR(200),
@@ -80,7 +85,7 @@ The app readily works for any jdbc store with only some changes in config (no co
 Create a new implementaion of DataStore and implement the methods as needed. Datasource config and setup must be taken care in the constructor of that store. 
 (Check out one of the implementations of datastore)
 
-Add the new store in the config depending on weather the store will be used to read urls or write the adstxt objects to.
+Add the new store in the config depending on whether the store will be used to read urls or write the adstxt objects to.
 
 ##### Step 1: Create a new implementation of DataStore
 

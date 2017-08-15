@@ -29,7 +29,7 @@ public class FileDataStoreTest {
     public void setup() {
 
         inputFilePath = (new File(this.getClass().getResource("/inputfile.csv").getFile())).getAbsolutePath();
-        outputFilePath = inputFilePath.replace("inputfile.csv", "outputfile.csv");
+        outputFilePath = inputFilePath.replace("inputfile.csv", "files/outputfile.csv");
         config = new Properties();
         config.setProperty("filestore.inputfilename", inputFilePath);
         config.setProperty("filestore.outputfilename", outputFilePath);
