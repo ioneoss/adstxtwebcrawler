@@ -23,6 +23,8 @@ package org.ignitionone.datastore;
 
 import org.ignitionone.datastore.core.DataStore;
 import org.ignitionone.model.AdsTxtRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashSet;
@@ -34,10 +36,14 @@ public class FileDataStore implements DataStore {
     private static String READFILE;
     private static String WRITEFILE;
 
+    private static Logger LOG = LoggerFactory.getLogger(FileDataStore.class);
+
     public FileDataStore(Properties properties) {
         // Read config etc.
         READFILE = properties.getProperty("filestore.inputfilename", "");
         WRITEFILE = properties.getProperty("filestore.outputfilename", "");
+
+        LOG.debug("Initializing file data store...");
     }
 
     @Override
@@ -47,7 +53,7 @@ public class FileDataStore implements DataStore {
             adsTxtRecords.forEach(adsTxtRecord ->
                     writeLine(fileWriter, adsTxtRecord));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error writing line: ", e);
         }
     }
 
@@ -63,7 +69,7 @@ public class FileDataStore implements DataStore {
                 urls.add(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error reading file: ", e);
         }
         return urls;
     }
@@ -72,7 +78,7 @@ public class FileDataStore implements DataStore {
         try {
             fileWriter.write(adsTxtRecord.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error wring line: ", e);
         }
     }
 }

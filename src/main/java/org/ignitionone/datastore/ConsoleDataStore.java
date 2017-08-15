@@ -23,11 +23,19 @@ package org.ignitionone.datastore;
 
 import org.ignitionone.datastore.core.DataStore;
 import org.ignitionone.model.AdsTxtRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
 
 public class ConsoleDataStore implements DataStore {
+
+    private static Logger LOG = LoggerFactory.getLogger(ConsoleDataStore.class);
+
+    public ConsoleDataStore() {
+        LOG.debug("Initializing Console data store..");
+    }
 
     @Override
     public Set<String> getAdsTxtUrls() {

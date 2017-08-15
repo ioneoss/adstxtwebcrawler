@@ -82,7 +82,7 @@ public class AdsTxtRecord {
 
     @Override
     public String toString() {
-        return DateTimeFormat.forPattern("YYYY-mm-dd HH:MM:SS").print(this.getInsertDate()) + "," +
+        return DateTimeFormat.forPattern("YYYY-M-dd HH:MM:SS").print(this.getInsertDate()) + "," +
                 this.getSourceDomain() + "," +
                 this.getAdServingDomain() + "," +
                 this.getPublisherAccId() + "," +

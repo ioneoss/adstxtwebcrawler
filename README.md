@@ -91,7 +91,7 @@ Add the new store in the config depending on whether the store will be used to r
 
 ```java
 /**
-* DataStore implements both read and write stores. Make sure to implement atleast 
+* DataStore implements both read and write stores. Make sure to implement at least 
 * one method depending on what the store is used for (either reading or writing) 
 */
 public class FileDataStore implements DataStore {
@@ -137,33 +137,33 @@ filestore.outputfilename=/path/to/outputfile
 
 public class FileDataStore implements DataStore {
 
-    @Override
-    public void insertAdsTxtRecords(List<AdsTxtRecord> adsTxtRecords) {
+   @Override
+   public void insertAdsTxtRecords(List<AdsTxtRecord> adsTxtRecords) {
 
-        try (FileWriter fileWriter = new FileWriter(WRITEFILE)) {
-            adsTxtRecords.forEach(adsTxtRecord ->
-                    writeLine(fileWriter, adsTxtRecord));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+       try (FileWriter fileWriter = new FileWriter(WRITEFILE)) {
+           adsTxtRecords.forEach(adsTxtRecord ->
+                   writeLine(fileWriter, adsTxtRecord));
+       } catch (IOException e) {
+           LOG.error("Error writing line: ", e);
+       }
+   }
 
-    @Override
-    public Set<String> getAdsTxtUrls() {
-        Set<String> urls = new HashSet<>();
+   @Override
+   public Set<String> getAdsTxtUrls() {
+       Set<String> urls = new HashSet<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(READFILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                line = line.replaceAll("\n", "");
-                urls.add(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return urls;
-    }
+       try (BufferedReader reader = new BufferedReader(new FileReader(READFILE))) {
+           String line;
+           while ((line = reader.readLine()) != null) {
+               line = line.trim();
+               line = line.replaceAll("\n", "");
+               urls.add(line);
+           }
+       } catch (Exception e) {
+           LOG.error("Error reading file: ", e);
+       }
+       return urls;
+   }
 }
 ```
 
@@ -212,30 +212,38 @@ datastores.write=postgres,file
 
 # This config reads urls from both mssql and file and writes the adstxt objects to postgres and file (provided there are implementations for these stores)
 ```
-Make sure atleast one implementation of read and write stores exists. 
+Make sure at least one implementation of read and write stores exists. 
 
 ##### Step 8: Execute the code and validate if data is inserted into all the stores listed in the config
  
  ```
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,openx.com,537136140,DIRECT,a698e2ec38604c6
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,openx.com,538962444,DIRECT,a698e2ec38604c6
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,indexexchange.com,184858,DIRECT,50b1c356f2c5c8fc
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,indexexchange.com,183980,DIRECT,50b1c356f2c5c8fc
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,rubiconproject.com,10778,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,contextweb.com,561182,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,google.com,pub-6768877878518502,DIRECT,f08c47fec0942fa0
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,google.com,pub-7443704194229694,DIRECT,f08c47fec0942fa0
- Fri Aug 11 10:40:31 EDT 2017,www.techworld.com,pubmatic.com,156271,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,google.com,pub-1037373295371110,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,rubiconproject.com,10306,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,indexexchange.com,183963,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,indexexchange.com,184913,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,openx.com,537147789,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,openx.com,538986829,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,appnexus.com,7161,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,appnexus.com,3364,RESELLER,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,facebook.com,1325898517502065,DIRECT,
- Fri Aug 11 10:40:31 EDT 2017,www.businessinsider.com,liveintent.com,87,DIRECT,
+ 2017-8-15 15:08:12,www.businessinsider.com,google.com,pub-1037373295371110,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,rubiconproject.com,10306,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,indexexchange.com,183963,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,indexexchange.com,184913,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,openx.com,537147789,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,openx.com,538986829,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,appnexus.com,7161,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,appnexus.com,3364,RESELLER,
+ 2017-8-15 15:08:16,www.businessinsider.com,facebook.com,1325898517502065,DIRECT,banner
+ 2017-8-15 15:08:16,www.businessinsider.com,liveintent.com,87,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,triplelift.com,583,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,taboola.com,688168,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,teads.com,11643,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,teads.com,11445,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,kargo.com,108,DIRECT,
+ 2017-8-15 15:08:16,www.businessinsider.com,indexexchange.com,184081,RESELLER,
+ 2017-8-15 15:08:16,www.businessinsider.com,google.com,pub-8415620659137418,RESELLER,
+ 2017-8-15 15:08:16,www.economist.com,google.com,pub-9789600135996590,DIRECT,
+ 2017-8-15 15:08:16,www.economist.com,www.indexexchange.com,184475,DIRECT,
+ 2017-8-15 15:08:16,www.economist.com,rubiconproject.com,11914,DIRECT,
+ 2017-8-15 15:08:16,www.economist.com,teads.tv,13684,DIRECT,
+ 2017-8-15 15:08:16,www.economist.com,teads.tv,13683,DIRECT,
+ 2017-8-15 15:08:16,www.investopedia.com,c.amazon-adsystem.com,3434,DIRECT,
+ 2017-8-15 15:08:16,www.investopedia.com,rubiconproject.com,16692,DIRECT,
+ 2017-8-15 15:08:16,www.investopedia.com,appnexus.com,6851,DIRECT,
+ 2017-8-15 15:08:16,www.investopedia.com,google.com,pub-9305557198178275,DIRECT,
+
  ```
 
 --------

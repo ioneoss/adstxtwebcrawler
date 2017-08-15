@@ -55,7 +55,8 @@ public class JDBCDataStore implements DataStore {
         this.appendDateId = Boolean.parseBoolean(config.getProperty(prefix + "appenddate", "false"));
 
         sql2o = new Sql2o(url, username, password);
-        LOG.info("Connected to {} successfully!", url);
+        LOG.debug("Initialized {} JDBC store", jdbcType);
+        LOG.debug("Connected to {} successfully!", url);
     }
 
     @Override
